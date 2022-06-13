@@ -5,11 +5,11 @@ class ParseEmitter extends EventEmitter {}
 
 var loadedAssets = {};
 
-function loadAssets(channel, args) {
+function loadAssets(channel, uid, args) {
 
     loadedAssets[channel] = {
         channel: channel,
-        uid: "",
+        uid: uid,
         emotes: [],
         badges: {},
         badgesLoaded: [false, false, false],
@@ -30,22 +30,7 @@ function loadAssets(channel, args) {
         }
     }
 
-    fetch(`https://dadoschyt.de/api/tmt/user/${channel}`)
-        .then(response => response.json())
-        .then(body => {
-            try {
-                var uid = body.data[0].id;
-
-            } catch (error) {
-                exports.events.emit('error', {
-                    channel: channel,
-                    error: "Failed to load user information for " + channel
-                });
-            } finally {
-                loadedAssets[channel].uid = uid;
-                loadConcurrent(uid, channel, args);
-            }
-        });
+    loadConcurrent(uid, channel, args);
 }
 
 function loadConcurrent(uid, channel, args) {
