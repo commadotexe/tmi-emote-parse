@@ -708,9 +708,9 @@ function loadOptions(args) {
     return args;
 }
 
-exports.loadAssets = function (channel, args) {
+exports.loadAssets = function (channel, uid, args) {
     args = loadOptions(args);
-    loadAssets(channel.replace("#", "").trim().toLowerCase(), args);
+    loadAssets(channel.replace("#", "").trim().toLowerCase(), uid, args);
 }
 
 exports.getLoaded = function (channel) {
